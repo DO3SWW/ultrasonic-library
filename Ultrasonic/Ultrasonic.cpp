@@ -1,5 +1,4 @@
 /*
-
 Simple to use Arduino Libary to use with the Ultrasonic HC-SR04 Modul.
 
 #### LICENSE ####
