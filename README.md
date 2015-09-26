@@ -10,8 +10,8 @@ This is a simple to use Arduino Library for the Ultrasonic HC-SR04 Module.
  - Adjustable Temperature (default 22 °C) ([Wiki](https://github.com/DO3SWW/ultrasonic-library/wiki/How-to-change-the-default-temperature%3F))
 
 ## Wiki
-[How to change the default tiemout?](https://github.com/DO3SWW/ultrasonic-library/wiki/How-to-change-the-default-tiemout%3F)
-[How to change the default temperature?](https://github.com/DO3SWW/ultrasonic-library/wiki/How-to-change-the-default-temperature%3F)
+- [How to change the default tiemout?](https://github.com/DO3SWW/ultrasonic-library/wiki/How-to-change-the-default-tiemout%3F)
+- [How to change the default temperature?](https://github.com/DO3SWW/ultrasonic-library/wiki/How-to-change-the-default-temperature%3F)
 
 
 
