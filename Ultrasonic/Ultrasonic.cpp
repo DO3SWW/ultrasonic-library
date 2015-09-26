@@ -1,8 +1,9 @@
 /*
-Simple to use Arduino Libary to use with the Ultrasonic HC-SR04 Modul.
+Ultrasonic-Library: Simple to use Arduino Library for the Ultrasonic HC-SR04 Module.
+Github: https://github.com/DO3SWW/ultrasonic-library
 
 #### LICENSE ####
-Ultrasonic-Arduino-Library 
+Ultrasonic Arduino Library 
 Copyright (C) 2015  Simon Weber
 
 This program is free software: you can redistribute it and/or modify
@@ -21,9 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #if ARDUINO >= 100
-	#include "Arduino.h"
+   #include "Arduino.h"
 #else
-	#include "WProgram.h"
+   #include "WProgram.h"
 #endif
 
 
@@ -31,28 +32,50 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 Ultrasonic::Ultrasonic(uint8_t trigPin, uint8_t echoPin) {
-	this->_TrigPin = trigPin;
-	this->_EchoPin = echoPin;
-	pinMode(_TrigPin, OUTPUT);
-	pinMode(_EchoPin, INPUT);
-}
-
-float Ultrasonic::getDistanceInInch() {
-	return Ultrasonic::readDuration() / Sound_per_second_INCH /2;
+   this->_TrigPin = trigPin;
+   this->_EchoPin = echoPin;
+   pinMode(_TrigPin, OUTPUT);
+   pinMode(_EchoPin, INPUT);
+   _timeOut = 5800; // 5800 µs ≈ 100 cm at 22 °C
 }
 
 
-float Ultrasonic::getDistanceInCM() {
-	return Ultrasonic::readDuration() / Sound_per_second_CM / 2;
+Ultrasonic::Ultrasonic(uint8_t trigPin, uint8_t echoPin, long timeOut) {
+   this->_TrigPin = trigPin;
+   this->_EchoPin = echoPin;
+   this->_timeOut = timeOut;
+   pinMode(_TrigPin, OUTPUT);
+   pinMode(_EchoPin, INPUT);
 }
 
 
-float Ultrasonic::readDuration() {
-	digitalWrite(_TrigPin, LOW);
-	delayMicroseconds(2);
-	digitalWrite(_TrigPin, HIGH);
-	delayMicroseconds(10);
-	digitalWrite(_TrigPin, LOW);
-	float pulse = pulseIn(_EchoPin, HIGH);
-	return pulse;
+long Ultrasonic::getDistanceInInch(long temperature) {   
+   long speedPerMicorsecondCM = Ultrasonic::speedOfSound(temperature);
+   return Ultrasonic::readDuration() / (speedPerMicorsecondCM * 2.54) /2;
+}
+
+
+long Ultrasonic::getDistanceInCM(long temperature) {
+   long speedPerMicorsecondCM = Ultrasonic::speedOfSound(temperature);
+   return Ultrasonic::readDuration() / speedPerMicorsecondCM / 2;
+}
+
+
+long Ultrasonic::speedOfSound(long temperature){
+   long ultrasonicspeed = SPEED_OF_SOUND_BASE + (SPEED_OF_SOUND_FACTOR * temperature);
+   return 10000 / ultrasonicspeed;
+}
+
+
+long Ultrasonic::readDuration() {
+   digitalWrite(_TrigPin, LOW);
+   delayMicroseconds(2);
+   digitalWrite(_TrigPin, HIGH);
+   delayMicroseconds(10);
+   digitalWrite(_TrigPin, LOW);
+   long duration = pulseIn(_EchoPin, HIGH, _timeOut);
+   if( duration == 0){
+      duration = _timeOut;
+   }
+   return duration;
 }

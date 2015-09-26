@@ -1,8 +1,9 @@
 /*
-Simple to use Arduino Libary to use with the Ultrasonic HC-SR04 Modul.
+Ultrasonic-Library: Simple to use Arduino Library for the Ultrasonic HC-SR04 Module.
+Github: https://github.com/DO3SWW/ultrasonic-library
 
 #### LICENSE ####
-Ultrasonic-Arduino-Library 
+Ultrasonic Arduino Library 
 Copyright (C) 2015  Simon Weber
 
 This program is free software: you can redistribute it and/or modify
@@ -25,27 +26,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #if ARDUINO >= 100
-	#include "Arduino.h"
+   #include "Arduino.h"
 #else
-	#include "WProgram.h"
+   #include "WProgram.h"
 #endif
 
 
-#define Sound_per_second_CM 29.1
-#define Sound_per_second_INCH 74
+#define SPEED_OF_SOUND_BASE 331.5
+#define SPEED_OF_SOUND_FACTOR 0.6
 
 
 class Ultrasonic {
-	
-	public:
-		Ultrasonic(uint8_t trigPin, uint8_t echoPin);
-		float getDistanceInInch();
-		float getDistanceInCM();
 
-	private:
-		uint8_t _TrigPin;
-		uint8_t _EchoPin;
-		float readDuration();
+   public:
+      Ultrasonic(uint8_t trigPin, uint8_t echoPin);
+      Ultrasonic(uint8_t trigPin, uint8_t echoPin, long timeOut);
+      long getDistanceInInch(long temperature = 22);
+      long getDistanceInCM(long temperature = 22);
+
+   private:
+      uint8_t _TrigPin;
+      uint8_t _EchoPin;
+      long _timeOut;
+      long readDuration();
+      long speedOfSound(long temperature);
 		
 };
 
