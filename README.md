@@ -1,4 +1,4 @@
-Ultrasonic HC-SR04 Library for Arduino
+Ultrasonic HC-SR04 Library with Timeout and adjustable Temperature for Arduino
 ===================
 
 This is a simple to use Arduino Library for the Ultrasonic HC-SR04 Module.
